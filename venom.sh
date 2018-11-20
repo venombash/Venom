@@ -1,5 +1,4 @@
 #!/bin/bash
-# Copyright Ben Fellers 2018
 #A tool to help begining hackers
 #Do not use for illegal purposes! White hat hacking or
 #goverment use! This is for educational purposes only!
