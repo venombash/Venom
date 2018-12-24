@@ -77,6 +77,7 @@ function tool_install() {
     fi
 }
 function script_install() {
+    clear
     printf "${YELLOW}"
     echo "Here are some scripts that can help you..."
     printf "${RED}"
@@ -107,6 +108,7 @@ function script_install() {
     fi
 }
 function main() {
+clear
 printf "${YELLOW}"
 echo "0-Exit"
 echo "1-Scan a port(nmap)"
@@ -119,13 +121,18 @@ echo "7-Check interfaces"
 echo "8-sha1 Brute Force Hash Cracker"
 echo "9-Reaver Wpa-Wpa2 Password Cracker"
 echo "10-Aireplay-ng deauth attack"
+echo "11-Bully Wpa-Wpa2 Password Cracker"
+echo "12-Reaver Wpa-Wpa2 Password Cracker with Pixiewps"
+echo "13-Bully Wpa-Wpa2 Password Cracker with Pixiewps"
 echo -e ""
 read choice
 if [ $choice == "0" ]
 then
+    clear
     printf "${NC}"
 elif [ $choice == "1" ]
 then
+    clear
     printf "${LIGHT_PURPLE}"
     echo -e "Enter the port name: "
     read port
@@ -139,6 +146,7 @@ then
     main
 elif [ $choice == "2" ]
 then
+    clear
     printf "${LIGHT_PURPLE}"
     echo -e "Enter the name of your interface: "
     read mon
@@ -150,6 +158,7 @@ then
     main
 elif [ $choice == "3" ]
 then
+    clear
     printf "${LIGHT_PURPLE}"
     echo -e "Enter the name of your interface: "
     read man
@@ -161,6 +170,7 @@ then
     main
 elif [ $choice == "4" ]
 then
+    clear
     printf "${LIGHT_PURPLE}"
     echo -e "Enter the ip adress: "
     read ip
@@ -172,6 +182,7 @@ then
     main
 elif [ $choice == "5" ]
 then
+    clear
     printf "${RED}"
     echo "Switching to directory airgeddon/..."
     cd airgeddon/
@@ -179,11 +190,13 @@ then
     bash ./airgeddon.sh
 elif [ $choice == "6" ]
 then
+    clear
     printf"${RED}"
     echo "Starting lazyscript..."
     l
 elif [ $choice == "7" ]
 then
+    clear
     printf "${RED}"
     airmon-ng
     echo "Done!"
@@ -192,6 +205,7 @@ then
     main
 elif [ $choice == "8" ]
 then
+    clear
     printf "${RED}"
     python3 sha1.py
     echo "Done!"
@@ -200,6 +214,7 @@ then
     main
 elif [ $choice == "9" ]
 then
+    clear
     printf "${LIGHT_PURPLE}"
     echo -e  "Enter the name of your interface: "
     read interface
@@ -219,6 +234,7 @@ then
     main
 elif [ $choice == "10" ]
 then
+    clear
     printf "${LIGHT_PURPLE}"
     echo -e "Enter interface name: "
     read interface
@@ -243,6 +259,56 @@ then
     echo -e "Checking...${LIGHT_GREEN}Done!"
     printf "${NC}"
     main
+elif [ $choice == "11" ]
+then
+    clear
+    printf "${LIGHT_PURPLE}"
+    echo -e "Enter BSSID: "
+    read bssid
+    echo -e "Extend SSID for the access point?[y/n]: "
+    read yes_no
+    if [ $yes_no == "y" ]
+    then
+        echo -e "Enter ESSID: "
+        read essid
+        echo -e "Enter interface name: "
+        read interface
+        printf "${RED}"
+        bully -b $bssid -e $essid $interface
+        printf "${NC}"
+        main
+    elif [ $yes_no == "n" ]
+    then
+        echo -e "Enter interface name: "
+        read interface
+        printf "${RED}"
+        bully -b $bssid $interface
+    else
+        echo "Invalid option"
+    fi
+elif [ $choice == "12" ]
+then
+    clear
+    printf "${LIGHT_PURPLE}"
+    echo -e "Enter interface name: "
+    read interface
+    echo -e "Enter BSSID: "
+    read bssid
+    printf "${RED}"
+    reaver -i $interface -b $bssid -K -vv
+    printf "${NC}"
+elif [ $choice == "13" ]
+then
+    printf "${LIGHT_PURPLE}"
+    echo -e "Enter BSSID: "
+    read bssid
+    echo -e "Enter ESSID: "
+    read essid
+    echo -e "Enter interface name: "
+    read interface
+    printf "${RED}"
+    bully -b $bssid -e $essid -d $interface
+    printf "${NC}"
 else
     main
 fi
