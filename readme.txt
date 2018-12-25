@@ -10,3 +10,5 @@ THX for using!
 Known working platforms:
 Kali
 Raspbian
+
+note: make sure you run it as root
