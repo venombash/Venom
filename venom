@@ -2,7 +2,7 @@
 #A tool to help begining hackers
 #Do not use for illegal purposes! White hat hacking or
 #goverment use! This is for educational purposes only!
-# v 2.0 2019 release
+# v 2.1 2019 release
 
 #colors
 RED='\033[0;31m'
@@ -18,7 +18,7 @@ echo "\    /   ------  |\  | |---| |\  /|   ----"
 echo " \  /    |____   | \ | |   | | \/ |  /   /"
 echo "  \/     |____   |  \| |___| |    |     /"
 echo "===================================    -----"
-echo "Version 2.0 Released 2019"
+echo "Version 2.1 Released 2019"
 echo "==================================="
 printf "${YELLOW}"
 echo "Hello all begining hackers!"
@@ -48,6 +48,7 @@ then
     echo "b - bully Wpa-Wpa2 Password Cracker | venom b {bssid} {interface}"
     echo "rp - reaver Wpa-Wpa2 Password Cracker with pixiewps | venom rp {bssid} {interface}"
     echo "bp - bully Wpa-Wpa2 Password Cracker with pixiewps | venom bp {bssid} {interface}"
+    echo "h - displays help screen"
     echo "==========================================================================================="
     echo "type tools to see a list of tool names"
     echo ""
@@ -164,6 +165,13 @@ then
     echo "reaver | sudo apt-get install reaver"
     printf "${NC}"
     main
+elif [[ $venom == 'venom' && $type == 'h' ]]
+then
+   printf "${LIGHT_RED}"
+   echo "Type in 'venom' for a list of commands"
+   echo "Type in 'tools' for a list of tools"
+   printf "${NC}"
+   main 
 else
     printf "${RED}"
     echo "$venom $type $name not a valid command"
