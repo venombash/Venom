@@ -2,193 +2,171 @@
 #A tool to help begining hackers
 #Do not use for illegal purposes! White hat hacking or
 #goverment use! This is for educational purposes only!
-# v 2.1 2019 release
+# v 3.0 2020 release
 
-#colors
-RED='\033[0;31m'
-LIGHT_RED='\033[1;31m'
-LIGHT_GREEN='\033[1;32m'
-YELLOW='\033[1;33m'
-LIGHT_PURPLE='\033[1;35m'
-NC='\033[0m' #No color
-ORANGE='\033[0;33m'
-clear
-printf "${LIGHT_GREEN}"
-echo "\    /   ------  |\  | |---| |\  /|   ----"
-echo " \  /    |____   | \ | |   | | \/ |  /   /"
-echo "  \/     |____   |  \| |___| |    |     /"
-echo "===================================    -----"
-echo "Version 2.2 Released 2019"
-echo "==================================="
-printf "${YELLOW}"
-echo "Hello all begining hackers!"
-echo""
-echo "Remember that this is for educational purposes only!"
-echo""
-echo "Be good hackerz and obey the law!"
-echo ""
+function port_scan () {
+    echo "Starting port scan on port $1"
+    sudo nmap -v -A $1
+    echo "Done!"
+}
 
-function main () {
-printf "${LIGHT_GREEN}"
-read venom type name interface
-if [[ $venom == 'venom'&& $type == '' && $name == '' ]]
-then
-    printf "${LIGHT_RED}"
-    echo "Venom v 2.0 2019 release by venombash | venombash.pythonanywhere.com | venombash@gmail.com"
-    echo "Venom help page"
-    echo "==========================================================================================="
-    echo "types"
-    echo "==========================================================================================="
-    echo "p - port scan | venom p {port name}"
-    echo "imon - put interface into monitor mode | venom imon {interface}"
-    echo "iman - put interface into managed mode | venom iman {interface}"
-    echo "pi - ping scan | venom pi {ip}"
-    echo "i - check interfaces | venom i"
-    echo "r - reaver Wpa-Wpa2 Password Cracker | venom r {bssid} {interface}"
-    echo "b - bully Wpa-Wpa2 Password Cracker | venom b {bssid} {interface}"
-    echo "rp - reaver Wpa-Wpa2 Password Cracker with pixiewps | venom rp {bssid} {interface}"
-    echo "bp - bully Wpa-Wpa2 Password Cracker with pixiewps | venom bp {bssid} {interface}"
-    echo "mj - mdk3 WiFi Jammer | venom mj {channel} {interface}"
-    echo "h - displays help screen"
-    echo "==========================================================================================="
-    echo "type tools to see a list of tool names"
-    echo ""
-    main
-elif [[ $venom == 'exit' && $type == '' && $name == '' ]]
-then
-    printf "${NC}"
-elif [[ $venom == 'venom' && $type == 'p' && $name != '' && $name != ' ' ]]
-then
-    printf "${LIGHT_RED}"
-    echo "This attack will use nmap. Make sure it is installed on your system before continuing. [Press enter to continue.]"
-    read empty
-    printf "${RED}"
-    sudo nmap -v -A $name
-    printf "${LIGHT_PURPLE}"
+function monitor_mode () {
+    echo "Putting $1 into monitor mode"
+    sudo airmon-ng start $1
     echo "Done!"
-    printf "${NC}"
-    main
-elif [[ $venom == 'venom' && $type == 'imon' && $name != '' && $name != ' ' ]]
-then
-    printf "${LIGHT_RED}"
-    echo "This function will use aircrack-ng. Make sure it is installed on your system before continuing. [Press enter to continue.]"
-    read empty
-    printf "${RED}"
-    sudo airmon-ng start $name
-    printf "${LIGHT_PURPLE}"
+}
+
+function managed_mode () {
+    echo "Putting $1 into managed mode"
+    sudo airmon-ng stop $1
     echo "Done!"
-    printf "${NC}"
-    main
-elif [[ $venom == 'venom' && $type == 'iman' && $name != '' && $name != ' ' ]]
-then
-    printf "${LIGHT_RED}"
-    echo "This function will use aircrack-ng. Make sure it is installed on your system before continuing. [Press enter to continue.]"
-    read empty
-    printf "${RED}"
-    sudo airmon-ng stop $name
-    printf "${LIGHT_PURPLE}"
+}
+
+function ping_scan () {
+    echo "Pinging $1"
+    ping $1
     echo "Done!"
-    printf "${NC}"
-    main
-elif [[ $venom == 'venom' && $type == 'pi' && $name != '' && $name != ' ' ]]
-then
-    printf "${RED}"
-    ping $name
-    printf "${LIGHT_PURPLE}"
-    echo "Done!"
-    printf "${NC}"
-    main
-elif [[ $venom == 'venom' && $type == 'i' ]]
-then
-    printf "${RED}"
+}
+
+function check_interfaces () {
+    echo "Checking interfaces"
     iwconfig
-    printf "${LIGHT_PURPLE}"
     echo "Done!"
-    printf "${NC}"
-    main
-elif [[ $venom == 'venom' && $type == 'r' && $name != '' && $name != ' ' && $interface != '' && $interface != ' ' ]]
-then
-    printf "${LIGHT_RED}"
-    echo "This attack will use reaver. Make sure it is installed on your system before continuing. [Press enter to continue.]"
-    read empty
-    printf "${RED}"
-    sudo reaver -i $interface --bssid $name -vvv
-    printf "${LIGHT_PURPLE}"
+}
+
+function reaver_func () {
+    echo "Executing reaver attack on interface $1 with bssid $2"
+    sudo reaver -i $1 --bssid $2 -vvv
     echo "Done!"
-    printf "${NC}"
-    main
-elif [[ $venom == 'venom' && $type == 'b' && $name != '' && $name != ' ' && $interface != '' && $interface != ' ' ]]
-then
-    printf "${LIGHT_RED}"
-    echo "This attack will use bully. Make sure it is installed on your system before continuing. [Press enter to continue.]"
-    read empty
-    printf "${RED}"
-    sudo bully -b $name $interface
-    printf "${LIGHT_PURPLE}"
+}
+
+function bully_func () {
+    echo "Executing bully attack on interface $1 with bssid $2"
+    sudo bully -b $2 $1
     echo "Done!"
-    printf "${NC}"
-    main
-elif [[ $venom == 'venom' && $type == 'rp' && $name != '' && $name != ' ' && $interface != '' && $interface != ' ' ]]
-then
-    printf "${LIGHT_RED}"
-    echo "This attack will use reaver. Make sure it is installed on your system before continuing. [Press enter to continue.]"
-    read empty
-    echo "This attack will use pixiewps. Make sure it is installed on your system before continuing. [Press enter to continue.]"
-    read empty
-    printf "${RED}"
-    sudo reaver -i $interface -b $name -K -vv
-    printf "${LIGHT_PURPLE}"
+}
+
+function reaver_wipixie () {
+    echo "Executing reaver attack on interface $1 with bssid $2 using pixiewps"
+    sudo reaver -i $1 -b $2 -K -vv
     echo "Done!"
-    printf "${NC}"
-    main
-elif [[ $venom == 'venom' && $type == 'bp' && $name != '' && $name != ' ' && $interface != '' && $interface != ' ' ]]
-then
-    printf "${LIGHT_RED}"
-    echo "This attack will use bully. Make sure it is installed on your system before continuing. [Press enter to continue.]"
-    read empty
-    echo "This attack will use pixiewps. Make sure it is installed on your system before continuing. [Press enter to continue.]"
-    read empty
-    printf "${RED}"
-    sudo bully -b $name -d $interface
-    printf "${LIGHT_PURPLE}"
+}
+
+function bully_wipixie () {
+    echo "Executing bully attack on interface $1 with bssid $2 using pixiewps"
+    sudo bully -b $2 -d $1
     echo "Done!"
-    printf "${NC}"
-    main
-elif [[ $venom == 'venom' && $type == 'mj' && $name != '' && $name != ' ' && $interface != '' && interface != ' ' ]]
-then
-    printf "${LIGHT_RED}"
-    echo "This attack will use mdk3. Make sure it is installed on your system before continuing. [Press enter to continue.]"
-    read empty
-    printf "${RED}"
-    sudo mdk3 $interface d -c $name
-    printf "${LIGHT_PURPLE}"
+}
+
+function mdk3_func () {
+    echo "Executing mdk3 WiFi Jamming on interface $1 on channel $2"
+    sudo mdk3 $1 d -c $2
     echo "Done!"
-    printf "${NC}"
-    main
-elif [[ $venom == 'tools' ]]
-then
-    printf "${LIGHT_RED}"
-    echo "Tools used by Venom 2"
-    echo "===================="
+}
+
+function print_tools () {
+    echo "Tools used by Venom 3"
     echo "nmap | sudo apt-get install nmap"
-    echo "bully| sudo apt-get install bully"
-    echo "aircrack-ng| sudo apt-get install aircrack-ng"
+    echo "bully | sudo apt-get install bully"
+    echo "aircrack-ng | sudo apt-get install aircrack-ng"
     echo "pixiewps | sudo apt-get install pixiewps"
     echo "reaver | sudo apt-get install reaver"
     echo "mdk3 | sudo apt-get install mdk3"
-    printf "${NC}"
-    main
-elif [[ $venom == 'venom' && $type == 'h' ]]
+    echo "Type 'venom inst <tool_name>' to install tool"
+}
+
+function install_tool () {
+    echo "Installing tool $1"
+    if [[ "$1" == "nmap" ]]
+    then
+        sudo apt-get install nmap
+        echo "Done!"
+    elif [[ "$1" == "bully" ]]
+    then
+        sudo apt-get install bully
+        echo "Done!"
+    elif [[ "$1" == "aircrack-ng" ]]
+    then
+        sudo apt-get install aircrack-ng
+        echo "Done!"
+    elif [[ "$1" == "pixiewps" ]]
+    then
+        sudo apt-get install pixiewps
+        echo "Done!"
+    elif [[ "$1" == "reaver" ]]
+    then
+        sudo apt-get install reaver
+        echo "Done!"
+    elif [[ "$1" == "mdk3" ]]
+    then
+        sudo apt-get install mdk3
+        echo "Done!"
+    else
+        echo "Please enter a valid tool name"
+    fi
+}
+
+function main () {
+    echo "Venom v 3.0 - New and Improved!"
+    echo "p - port scan | venom p <port name>"
+    echo "imon - put interface into monitor mode | venom imon <interface>"
+    echo "iman - put interface into managed mode | venom iman <interface>"
+    echo "pi - ping scan | venom pi <ip>"
+    echo "i - check interfaces | venom i"
+    echo "r - reaver Wpa-Wpa2 Password Cracker | venom r <bssid> <interface>"
+    echo "b - bully Wpa-Wpa2 Password Cracker | venom b <bssid> <interface>"
+    echo "rp - reaver Wpa-Wpa2 Password Cracker with pixiewps | venom rp <bssid> <interface>"
+    echo "bp - bully Wpa-Wpa2 Password Cracker with pixiewps | venom bp <bssid> <interface>"
+    echo "mj - mdk3 WiFi Jammer | venom mj <channel> <interface>"
+    echo "h - displays help screen"
+    echo ""
+    echo "type 'venom t' to see a list of tool names"
+
+}
+
+if [ -z "$1" ]
 then
-   printf "${LIGHT_RED}"
-   echo "Type in 'venom' for a list of commands"
-   echo "Type in 'tools' for a list of tools"
-   printf "${NC}"
-   main 
+    main
+elif [[ "$1" == "p" ]]
+then
+    #echo $2
+    port_scan $2
+elif [[ "$1" == "imon" ]]
+then
+    monitor_mode $2
+elif [[ "$1" == "iman" ]]
+then
+    managed_mode $2
+elif [[ "$1" == "pi" ]]
+then
+    ping_func $2
+elif [[ "$1" == "i" ]]
+then
+    check_interfaces
+elif [[ "$1" == "r" ]]
+then
+    reaver_func $2 $3
+elif [[ "$1" == "b" ]]
+then
+    bully_func $2 $3
+elif [[ "$1" == "rp" ]]
+then
+    reaver_wipixie $2 $3
+elif [[ "$1" == "bp" ]]
+then
+    bully_wipixie $2 $3
+elif [[ "$1" == "mj" ]]
+then
+    mdk3_func $2 $3
+elif [[ "$1" == "t" ]]
+then
+    print_tools
+elif [[ "$1" == "h" ]]
+then
+    main
+elif [[ "$1" == "inst" ]]
+then
+    install_tool $2
 else
-    printf "${RED}"
-    echo "$venom $type $name not a valid command"
     main
 fi
-}
-main
